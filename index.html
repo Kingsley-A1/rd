@@ -8,7 +8,18 @@
   <meta property="og:type" content="profile">
   <meta property="og:title" content="Ray Dynasty — Artist / Official EPK">
   <meta property="og:description" content="Soul in the voice. Africa in the rhythm. Discover the sound and story of Ray Dynasty.">
-  <meta property="og:image" content="assets/ray-dynasty-press-photo.jpg">
+  <link rel="canonical" href="https://ray-dynasty.vercel.app/">
+  <meta property="og:url" content="https://ray-dynasty.vercel.app/">
+  <meta property="og:image" content="https://ray-dynasty.vercel.app/assets/ray-dynasty-misdemeanour-artwork.jpg">
+  <meta property="og:image:secure_url" content="https://ray-dynasty.vercel.app/assets/ray-dynasty-misdemeanour-artwork.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1536">
+  <meta property="og:image:alt" content="Ray Dynasty — MISDEMEANOUR official artwork">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ray Dynasty — MISDEMEANOUR">
+  <meta name="twitter:description" content="Discover Ray Dynasty. MISDEMEANOUR arrives 30 October 2026.">
+  <meta name="twitter:image" content="https://ray-dynasty.vercel.app/assets/ray-dynasty-misdemeanour-artwork.jpg">
   <meta name="color-scheme" content="light dark">
   <title>Ray Dynasty — Artist &amp; Electronic Press Kit</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -221,7 +232,8 @@
       .fact-value{font-size:24px}
     }
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}.reveal{opacity:1;transform:none}}
-  </style>
+  .countdown{margin:0 0 32px}.countdown-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:0 0 16px}.countdown-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:420px}.countdown-unit{border-top:1px solid #ffffff30;padding-top:14px}.countdown-unit strong{display:block;font-family:var(--display);font-size:clamp(32px,5vw,54px);font-variant-numeric:tabular-nums;font-weight:600;line-height:1}.countdown-unit span{display:block;margin-top:9px;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#aaa9a2}.countdown-note{font-size:10px;color:#aaa9a2;margin-top:16px}
+</style>
 </head>
 <body>
   <a class="sr-only" href="#main">Skip to content</a>
@@ -281,6 +293,13 @@
             <h2 class="release-title" id="release-heading">MISDE<br>MEANOUR</h2>
             <p class="release-description">A new chapter in Ray Dynasty’s artistic journey. “MISDEMEANOUR” carries forward his commitment to emotion, personal experience and relatable musical storytelling.</p>
             <div class="release-date"><span class="num">30.10.26</span><span class="date-copy">Scheduled release<br><span>30 October 2026</span></span></div>
+            <div class="countdown" id="release-countdown" hidden>
+              <p class="countdown-label" id="countdown-label">The countdown is on</p>
+              <div class="countdown-grid" role="timer" aria-label="Time until the scheduled release date">
+              <div class="countdown-unit"><strong data-count="days">00</strong><span>Days</span></div><div class="countdown-unit"><strong data-count="hours">00</strong><span>Hours</span></div><div class="countdown-unit"><strong data-count="minutes">00</strong><span>Minutes</span></div><div class="countdown-unit"><strong data-count="seconds">00</strong><span>Seconds</span></div>
+              </div>
+              <p class="countdown-note">Counting to 30 October · 00:00 WAT (Nigeria)</p>
+            </div>
             <a href="https://www.instagram.com/official_raydynasty" target="_blank" rel="noopener noreferrer" class="pill-link">Follow release updates <span class="arrow" aria-hidden="true">↗</span></a>
             <p class="feature-foot">Follow Ray Dynasty’s social channels for music and release updates.</p>
           </div>
@@ -351,6 +370,24 @@
   <script>
     // Enhancement only: the full page remains usable without JavaScript.
     (function(){
+      const countdown=document.getElementById('release-countdown');
+      const releaseAt=Date.parse('2026-10-30T00:00:00+01:00');
+      function updateCountdown(){
+        const seconds=Math.max(0,Math.floor((releaseAt-Date.now())/1000));
+        const values={days:Math.floor(seconds/86400),hours:Math.floor(seconds/3600)%24,minutes:Math.floor(seconds/60)%60,seconds:seconds%60};
+        Object.entries(values).forEach(([key,value])=>{countdown.querySelector('[data-count="'+key+'"]').textContent=String(value).padStart(2,'0');});
+        if(seconds===0){
+          document.getElementById('countdown-label').textContent='Release day has arrived';
+          document.querySelector('.release-prefix').textContent='Featured single';
+          countdown.querySelector('.countdown-grid').hidden=true;
+          countdown.querySelector('.countdown-note').textContent='Follow Ray Dynasty for the latest listening links.';
+          clearInterval(countdownInterval);
+        }
+      }
+      let countdownInterval;
+      countdown.hidden=false;
+      updateCountdown();
+      if(Date.now()<releaseAt) countdownInterval=setInterval(updateCountdown,1000);
       const blocks=document.querySelectorAll('.reveal');
       if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches){blocks.forEach(n=>n.classList.add('visible'));}
       else{const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}})},{threshold:.08,rootMargin:'0px 0px -35px 0px'});blocks.forEach(n=>observer.observe(n));}
